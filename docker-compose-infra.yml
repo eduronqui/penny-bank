@@ -1,0 +1,32 @@
+version: "3.5"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=penny-bank
+      - POSTGRES_USER=usr
+      - POSTGRES_PASSWORD=pwd
+      - PGDATA=/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
+  
+  pgadmin:
+    image: elestio/pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=pg@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=pwd
+      - PGADMIN_LISTEN_PORT=8080
+    volumes:
+      - ./db/servers.json:/pgadmin4/servers.json
+    ports:
+      - "8080:8080"
+
+networks:
+  default:
+    driver: bridge
+    name: rinha-penny-bank

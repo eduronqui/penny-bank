@@ -1,0 +1,59 @@
+version: "3.5"
+
+services:
+  api01: &api
+    build:
+      context: .
+      target: api
+    depends_on:
+      - db
+    command: sh -c './wait-for db:5432 -- npm run serve'
+    environment:
+      - API_PORT=3000
+      - DATABASE_URL=postgres://usr:pwd@db:5432/penny-bank
+      - NODE_ENV=production
+    deploy:
+      resources:
+        limits:
+          cpus: "0.4"
+          memory: "125MB"
+
+  api02:
+    <<: *api 
+ 
+  nginx:
+    image: nginx:1.25-alpine
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api01
+      - api02
+    ports:
+      - "9999:9999" 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.2"
+          memory: "50MB"
+
+  db:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      - POSTGRES_DB=penny-bank
+      - POSTGRES_USER=usr
+      - POSTGRES_PASSWORD=pwd
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+      - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "250MB"
+
+networks:
+  default:
+    driver: bridge
+    name: rinha-penny-bank

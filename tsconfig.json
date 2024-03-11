@@ -1,0 +1,12 @@
+{
+    "extends": "@tsconfig/node20/tsconfig.json",
+    "compilerOptions": {
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "outDir": "./dist",
+        "sourceMap": true,
+    },
+    "include": [
+        "./src/*",
+    ]
+}

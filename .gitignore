@@ -1,0 +1,4 @@
+node_modules
+db
+dist
+load-test/user-files/results
