@@ -81,6 +81,7 @@ export async function createTransactionHandler(
       .map(Number);
 
     res.writeHead(HTTP_STATUS_CODES.OK).end(JSON.stringify({ saldo, limite }));
+    return;
   } catch (err: any) {
     console.error(err);
     res.writeHead(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).end();

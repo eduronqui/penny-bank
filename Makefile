@@ -7,6 +7,7 @@ help: ## Prints available commands
 
 stress-test: ## Run stress test
 	@sh load-test/stress-test.sh
+	@docker compose -f docker-compose-rinha.yml down
 
 run-rinha: ## Run the application locally
 	@rm -rf db/data

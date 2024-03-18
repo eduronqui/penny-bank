@@ -34,6 +34,7 @@ export async function getBankStatementHandler(
         ultimas_transacoes: ultimasTransacoesResult.rows,
       })
     );
+    return;
   } catch (err) {
     console.error(err);
     res.writeHead(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).end();

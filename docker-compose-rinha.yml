@@ -16,7 +16,7 @@ services:
       resources:
         limits:
           cpus: "0.4"
-          memory: "125MB"
+          memory: "110MB"
 
   api02:
     <<: *api 
@@ -45,13 +45,13 @@ services:
       - POSTGRES_PASSWORD=pwd
       - PGDATA=/var/lib/postgresql/data
     volumes:
-      - ./db/data:/var/lib/postgresql/data
       - ./config/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf
     deploy:
       resources:
         limits:
           cpus: "0.5"
-          memory: "250MB"
+          memory: "280MB"
 
 networks:
   default:

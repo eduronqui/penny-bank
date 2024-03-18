@@ -11,7 +11,7 @@ export const pgPool = new Pool({
   password: dbUrl.password,
   host: dbUrl.hostname,
   port: Number(dbUrl.port),
-  max: 20,
+  max: 10,
 });
 
 if (process.env.NODE_ENV !== 'production') {
